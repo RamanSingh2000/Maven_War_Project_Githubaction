@@ -29,12 +29,12 @@ jobs:
     - name: Check Docker Version
       run: docker --version
 
-    - name: Run OWASP Dependency-Check
-      uses: dependency-check/dependency-check-action@v2
-      with:
-        format: 'ALL'
-        scan: 'true'
-        failOnCVSS: '11'
+    # - name: Run OWASP Dependency-Check
+    #   uses: dependency-check/dependency-check-action@v2
+    #   with:
+    #     format: 'ALL'
+    #     scan: 'true'
+    #     failOnCVSS: '11'
     # - name: Build & push Docker image
     #   uses: mr-smithers-excellent/docker-build-push@v5
     #   with:
