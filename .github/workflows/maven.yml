@@ -30,7 +30,7 @@ jobs:
       run: docker --version
 
     - name: Run OWASP Dependency-Check
-      uses: dependency-check/dependency-check-action@v2
+      uses: dependency-check/dependency-check-action@vlatest
       with:
         format: 'ALL'
         scan: 'true'
