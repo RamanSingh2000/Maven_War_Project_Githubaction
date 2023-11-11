@@ -29,12 +29,18 @@ jobs:
     - name: Check Docker Version
       run: docker --version
 
-    - name: Build & push Docker image
-      uses: mr-smithers-excellent/docker-build-push@v5
+    - name: Run OWASP Dependency-Check
+      uses: dependency-check/dependency-check-action@v2
       with:
-        image: ramansingh2000/devops-integration
-        tags: latest
-        registry: docker.io
-        dockerfile: Dockerfile
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        format: 'ALL'
+        scan: 'true'
+        failOnCVSS: '11'
+    # - name: Build & push Docker image
+    #   uses: mr-smithers-excellent/docker-build-push@v5
+    #   with:
+    #     image: ramansingh2000/devops-integration
+    #     tags: latest
+    #     registry: docker.io
+    #     dockerfile: Dockerfile
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
