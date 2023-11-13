@@ -31,24 +31,24 @@ jobs:
     - name: Check Docker Version
       run: docker --version
 
-    - name: Depcheck
-      uses: dependency-check/Dependency-Check_Action@main
-      env:
-        JAVA_HOME: /opt/jdk
-      id: Depcheck
-      with:
-        project: 'Maven_War_Project_Githubaction'
-        path: '.'
-        format: 'HTML'
-        out: 'reports' # this is the default, no need to specify unless you wish to override it
-        args: >
-          --failOnCVSS 7
-          --enableRetired
-    - name: Upload Test results
-      uses: actions/upload-artifact@master
-      with:
-         name: Depcheck report
-         path: ${{github.workspace}}/reports
+    # - name: Depcheck
+    #   uses: dependency-check/Dependency-Check_Action@main
+    #   env:
+    #     JAVA_HOME: /opt/jdk
+    #   id: Depcheck
+    #   with:
+    #     project: 'Maven_War_Project_Githubaction'
+    #     path: '.'
+    #     format: 'HTML'
+    #     out: 'reports' # this is the default, no need to specify unless you wish to override it
+    #     args: >
+    #       --failOnCVSS 7
+    #       --enableRetired
+    # - name: Upload Test results
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #      name: Depcheck report
+    #      path: ${{github.workspace}}/reports
 
     
     - name: Build & push Docker image
@@ -61,8 +61,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Trivy Scan
-      uses:  docker://aquasec/trivy:latest
+      uses:  aquasecurity/trivy-action@master
       with:
         image-ref: ramansingh2000/devops-integration:latest
-        format: table  # or use 'json' for JSON output
-        
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
