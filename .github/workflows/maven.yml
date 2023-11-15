@@ -70,7 +70,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
   deploy:
     needs: build
-    runs-on: [self-hosted,aws-ec2]
+    runs-on: self-hosted
     steps:
       - name: Pull Image from docker hub
         run: docker pull ramansingh2000/devops-integration:latest
