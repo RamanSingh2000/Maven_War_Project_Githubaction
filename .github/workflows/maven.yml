@@ -23,6 +23,26 @@ jobs:
         cache: maven
     - name: Unit Testing
       run: mvn test
+
+    - name: Cache SonarQube packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+    - name: Cache Maven packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    - name: Build and analyze
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      
     - name: Build with Maven
       run: mvn clean install
     - name: Set up Docker Buildx
@@ -68,13 +88,13 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL,HIGH'
-  deploy:
-    needs: build
-    runs-on: self-hosted
-    steps:
-      - name: Pull Image from docker hub
-        run: sudo docker pull ramansingh2000/devops-integration:latest
-      - name: Delete old container
-        run:  sudo docker rm -f springboot-example-container
+  # deploy:
+  #   needs: build
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Pull Image from docker hub
+  #       run: sudo docker pull ramansingh2000/devops-integration:latest
+  #     - name: Delete old container
+  #       run:  sudo docker rm -f springboot-example-container
       - name: Run docker container
         run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
