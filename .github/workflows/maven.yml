@@ -96,5 +96,5 @@ jobs:
   #       run: sudo docker pull ramansingh2000/devops-integration:latest
   #     - name: Delete old container
   #       run:  sudo docker rm -f springboot-example-container
-      - name: Run docker container
-        run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+  #     - name: Run docker container
+  #       run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
