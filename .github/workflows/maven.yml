@@ -53,9 +53,9 @@ jobs:
         password: admin
         format: maven2
         repository: maven-devops
-        coordinates: groupId=QA artifactId=devops-integration
+        coordinates: groupId=QA artifactId=devops-integration version=1.0.0
         assets: extension=war
-        filename: target/devops-integration.war
+        filename: ./target/devops-integration.war
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
