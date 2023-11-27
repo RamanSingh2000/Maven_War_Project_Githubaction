@@ -123,7 +123,7 @@ jobs:
     steps:
       - name: Retrieve Deployment Type from previous job
         run: |
-          deployment_type=${{ github.event.inputs.deployment_type }}
+          deployment_type=${{  needs.build.outputs.deployment_type }}
           echo "Deployment Type in Deploy Job: $deployment_type"
           echo "Deployment Type from inputs: ${{ github.event.inputs.deployment_type }}"
 
