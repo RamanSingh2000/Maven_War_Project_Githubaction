@@ -12,7 +12,7 @@ public class DevopsMavenProject13Application {
 
 	@GetMapping
 	public String message(){
-		return "Hello Team.Hurray!We have deployed the latest build";
+		return "Hello Team.Hurray!We have deployed the latest build for githubaction";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(DevopsMavenProject13Application.class, args);
