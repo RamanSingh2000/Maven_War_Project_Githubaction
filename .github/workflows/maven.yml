@@ -135,6 +135,7 @@ jobs:
         run: |
           deployment_type=${{ needs.build.outputs.deployment_type }}
           echo "Deployment Type in Deploy Job: $deployment_type"
+          echo "Deployment Type from inputs: ${{ github.event.inputs.deployment_type }}"
 
       - name: Deployment based on Type
         run: |
@@ -144,7 +145,8 @@ jobs:
           sudo docker rm -f springboot-example-container
           sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
          else
-         
+          sudo apt-get update
+          sudo apt-get install wget -y
           # echo "NEXUS_USERNAME=your_username" >> ~/.bashrc
           # echo "NEXUS_PASSWORD=your_password" >> ~/.bashrc
           # source ~/.bashrc
