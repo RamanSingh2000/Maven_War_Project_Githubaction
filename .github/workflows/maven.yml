@@ -59,17 +59,17 @@ jobs:
       
     - name: Build with Maven
       run: mvn clean install
-    # - name: Nexus Repo Publish
-    #   uses: sonatype-nexus-community/nexus-repo-github-action@master
-    #   with:
-    #     serverUrl: http://3.111.55.254:8082
-    #     username: admin
-    #     password: admin
-    #     format: maven2
-    #     repository: maven-devops
-    #     coordinates: groupId=QA artifactId=devops-integration version=1.0.0
-    #     assets: extension=war
-    #     filename: ./target/devops-integration.war
+    - name: Nexus Repo Publish
+      uses: sonatype-nexus-community/nexus-repo-github-action@master
+      with:
+        serverUrl: http://13.126.67.175:8082
+        username: admin
+        password: admin
+        format: maven2
+        repository: maven-devops
+        coordinates: groupId=QA artifactId=devops-integration version=1.0.0
+        assets: extension=war
+        filename: ./target/devops-integration.war
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -145,12 +145,12 @@ jobs:
           sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
          else
          
-          echo "NEXUS_USERNAME=your_username" >> ~/.bashrc
-          echo "NEXUS_PASSWORD=your_password" >> ~/.bashrc
-          source ~/.bashrc
+          # echo "NEXUS_USERNAME=your_username" >> ~/.bashrc
+          # echo "NEXUS_PASSWORD=your_password" >> ~/.bashrc
+          # source ~/.bashrc
 
           # Example: Download a WAR file from Nexus
-          wget --user=$NEXUS_USERNAME --password=$NEXUS_PASSWORD -O app.war "https://nexus.example.com/repository/maven-releases/com/example/app/1.0.0/app-1.0.0.war"
+          wget --user=admin --password=admin -O app.war "http://13.126.67.175:8082/repository/maven-devops/QA/devops-integration/1.0.0/devops-integration-1.0.0.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:latest
