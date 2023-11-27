@@ -3,10 +3,28 @@
 
 name: project cicd flow
 
+# on:
+#   push:
+#     branches: [ "main" ]
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+#     inputs:
+#       deployment_type:
+#         description: 'Choose deployment type'
+#         required: true
+#         default: 'container'
+
 on:
-  push:
-    branches: [ "main" ]
-  
+  workflow_dispatch:
+    inputs:
+      deployment_type:
+        description: 'Choose deployment type'
+        required: true
+        default: 'container'
 
 jobs:
   build:
