@@ -67,7 +67,7 @@ jobs:
         password: admin
         format: maven2
         repository: maven-devops
-        coordinates: groupId=QA artifactId=devops-integration version=1.0.0
+        coordinates: groupId=QA artifactId=devops-integration version=${{ github.run_number }}
         assets: extension=war
         filename: ./target/devops-integration.war
       
@@ -150,7 +150,7 @@ jobs:
           # source ~/.bashrc
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://13.126.67.175:8082/repository/maven-devops/QA/devops-integration/1.0.0/devops-integration-1.0.0.war"
+          wget --user=admin --password=admin -O app.war "http://13.126.67.175:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:latest
