@@ -129,7 +129,7 @@ jobs:
 
       - name: Deployment based on Type
         run: |
-         if [ "$deployment_type" == "container" ]; then
+         if [[ "$deployment_type" == "container" ]]; then
           # Container deployment steps
           sudo docker pull ramansingh2000/devops-integration:latest
           sudo docker rm -f springboot-example-container
