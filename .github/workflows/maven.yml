@@ -145,7 +145,7 @@ jobs:
           wget --user=admin --password=admin -O app.war "http://13.233.19.182:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
-          sudo docker pull tomcat:latest
+          sudo docker pull tomcat:8
 
           # Run Tomcat Docker container on port 8085
           sudo docker run -d -p 8085:8080 --name my-tomcat tomcat:latest
