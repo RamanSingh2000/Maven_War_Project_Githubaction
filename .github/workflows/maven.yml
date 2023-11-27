@@ -62,7 +62,7 @@ jobs:
     - name: Nexus Repo Publish
       uses: sonatype-nexus-community/nexus-repo-github-action@master
       with:
-        serverUrl: http://13.126.67.175:8082
+        serverUrl: http://13.233.19.182:8082
         username: admin
         password: admin
         format: maven2
@@ -114,17 +114,7 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL,HIGH'
-  # deploy:
-  #   needs: build
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Pull Image from docker hub
-  #       run: sudo docker pull ramansingh2000/devops-integration:latest
-  #     - name: Delete old container
-  #       run:  sudo docker rm -f springboot-example-container
-  #     - name: Run docker container
-  #       run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
-
+ 
 
  
   deploy:
@@ -143,7 +133,7 @@ jobs:
           # Container deployment steps
           sudo docker pull ramansingh2000/devops-integration:latest
           sudo docker rm -f springboot-example-container
-          sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+          sudo docker run -d -p 8087:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
          else
          
           sudo yum install wget -y
@@ -152,7 +142,7 @@ jobs:
           # source ~/.bashrc
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://13.126.67.175:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
+          wget --user=admin --password=admin -O app.war "http://13.233.19.182:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:latest
