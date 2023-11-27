@@ -114,13 +114,53 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL,HIGH'
+  # deploy:
+  #   needs: build
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Pull Image from docker hub
+  #       run: sudo docker pull ramansingh2000/devops-integration:latest
+  #     - name: Delete old container
+  #       run:  sudo docker rm -f springboot-example-container
+  #     - name: Run docker container
+  #       run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+
+
+ 
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Pull Image from docker hub
-        run: sudo docker pull ramansingh2000/devops-integration:latest
-      - name: Delete old container
-        run:  sudo docker rm -f springboot-example-container
-      - name: Run docker container
-        run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+      - name: Retrieve Deployment Type from previous job
+        run: |
+          deployment_type=${{ needs.build.outputs.deployment_type }}
+          echo "Deployment Type in Deploy Job: $deployment_type"
+
+      - name: Deployment based on Type
+        run: |
+         if [ "$deployment_type" == "container" ]; then
+          # Container deployment steps
+          sudo docker pull ramansingh2000/devops-integration:latest
+          sudo docker rm -f springboot-example-container
+          sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+         else
+         
+          echo "NEXUS_USERNAME=your_username" >> ~/.bashrc
+          echo "NEXUS_PASSWORD=your_password" >> ~/.bashrc
+          source ~/.bashrc
+
+          # Example: Download a WAR file from Nexus
+          wget --user=$NEXUS_USERNAME --password=$NEXUS_PASSWORD -O app.war "https://nexus.example.com/repository/maven-releases/com/example/app/1.0.0/app-1.0.0.war"
+
+          # Download Tomcat Docker image
+          sudo docker pull tomcat:latest
+
+          # Run Tomcat Docker container on port 8085
+          sudo docker run -d -p 8085:8080 --name my-tomcat tomcat:latest
+
+          # Deploy the WAR file to Tomcat
+          sudo docker cp app.war my-tomcat:/usr/local/tomcat/webapps/
+         fi
+
+ 
+  
