@@ -148,7 +148,7 @@ jobs:
           sudo docker pull tomcat:8
 
           # Run Tomcat Docker container on port 8085
-          sudo docker run -d -p 8085:8080 --name my-tomcat tomcat:latest
+          sudo docker run -d -p 8085:8080 --name my-tomcat tomcat:8
 
           # Deploy the WAR file to Tomcat
           sudo docker cp app.war my-tomcat:/usr/local/tomcat/webapps/
