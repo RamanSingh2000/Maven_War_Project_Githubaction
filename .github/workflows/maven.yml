@@ -45,17 +45,17 @@ jobs:
       
     - name: Build with Maven
       run: mvn clean install
-    - name: Nexus Repo Publish
-      uses: sonatype-nexus-community/nexus-repo-github-action@master
-      with:
-        serverUrl: http://3.111.55.254:8082
-        username: admin
-        password: admin
-        format: maven2
-        repository: maven-devops
-        coordinates: groupId=QA artifactId=devops-integration version=1.0.0
-        assets: extension=war
-        filename: ./target/devops-integration.war
+    # - name: Nexus Repo Publish
+    #   uses: sonatype-nexus-community/nexus-repo-github-action@master
+    #   with:
+    #     serverUrl: http://3.111.55.254:8082
+    #     username: admin
+    #     password: admin
+    #     format: maven2
+    #     repository: maven-devops
+    #     coordinates: groupId=QA artifactId=devops-integration version=1.0.0
+    #     assets: extension=war
+    #     filename: ./target/devops-integration.war
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -100,13 +100,13 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL,HIGH'
-  # deploy:
-  #   needs: build
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Pull Image from docker hub
-  #       run: sudo docker pull ramansingh2000/devops-integration:latest
-  #     - name: Delete old container
-  #       run:  sudo docker rm -f springboot-example-container
-  #     - name: Run docker container
-  #       run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Image from docker hub
+        run: sudo docker pull ramansingh2000/devops-integration:latest
+      - name: Delete old container
+        run:  sudo docker rm -f springboot-example-container
+      - name: Run docker container
+        run: sudo docker run -d -p 8080:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
