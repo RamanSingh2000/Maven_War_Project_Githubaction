@@ -123,7 +123,7 @@ jobs:
     steps: 
       - name: Debug Outputs Structure
         run: |
-          echo "Build Outputs: ${{ toJson(needs.build.outputs) }}
+          echo "Build Outputs: ${{ toJson(needs.build.outputs) }}"
       - name: Retrieve Deployment Type from previous job
         run: |
           deployment_type=${{  needs.build.outputs.deployment_type }}
