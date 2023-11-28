@@ -25,26 +25,30 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
+  
     # - name: Choose Deployment Type
     #   id: choose_deployment
     #   run: |
-    #       echo "::set-output name=deployment_type::$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")"
+    #        deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
+    #        echo "Deployment Type: $deployment_type"
+    #        echo "::set-output name=deployment_type::$deployment_type"
     #   env:
-    #       INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
-
+    #      INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
     - name: Choose Deployment Type
       id: choose_deployment
       run: |
-           deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
-           echo "Deployment Type: $deployment_type"
-           echo "::set-output name=deployment_type::$deployment_type"
+        deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
+        echo "Deployment Type: $deployment_type"
+        echo "DEPLOYMENT_TYPE=$deployment_type" >> $GITHUB_ENV
       env:
-         INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
+       INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
 
 
     - name: Show Deployment Type
       run: |
-          echo "Deployment Type: ${{ steps.choose_deployment.outputs.deployment_type }}"
+        echo "Deployment Type: $DEPLOYMENT_TYPE"
+
+    
     - name: Unit Testing
       run: mvn test
 
