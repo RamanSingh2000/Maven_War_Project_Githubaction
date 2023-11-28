@@ -62,7 +62,7 @@ jobs:
     - name: Nexus Repo Publish
       uses: sonatype-nexus-community/nexus-repo-github-action@master
       with:
-        serverUrl: http://13.233.19.182:8082
+        serverUrl: http://65.1.111.145:8082
         username: admin
         password: admin
         format: maven2
@@ -121,6 +121,9 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: Debug Outputs Structure
+        run: |
+          echo "Build Outputs: ${{ toJson(needs.build.outputs) }}
       - name: Retrieve Deployment Type from previous job
         run: |
           deployment_type=${{  needs.build.outputs.deployment_type }}
@@ -142,7 +145,7 @@ jobs:
           # source ~/.bashrc
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://13.233.19.182:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
+          wget --user=admin --password=admin -O app.war "http://65.1.111.145:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:8
