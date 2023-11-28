@@ -120,7 +120,7 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-    steps:
+    steps: 
       - name: Debug Outputs Structure
         run: |
           echo "Build Outputs: ${{ toJson(needs.build.outputs) }}
