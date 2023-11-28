@@ -62,7 +62,7 @@ jobs:
     - name: Nexus Repo Publish
       uses: sonatype-nexus-community/nexus-repo-github-action@master
       with:
-        serverUrl: http://65.1.111.145:8082
+        serverUrl: http://13.232.253.204:8082
         username: admin
         password: admin
         format: maven2
@@ -145,7 +145,7 @@ jobs:
           # source ~/.bashrc
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://65.1.111.145:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
+          wget --user=admin --password=admin -O app.war "http://13.232.253.204:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:8
