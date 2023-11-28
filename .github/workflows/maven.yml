@@ -25,12 +25,22 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
+    # - name: Choose Deployment Type
+    #   id: choose_deployment
+    #   run: |
+    #       echo "::set-output name=deployment_type::$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")"
+    #   env:
+    #       INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
+
     - name: Choose Deployment Type
       id: choose_deployment
       run: |
-          echo "::set-output name=deployment_type::$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")"
+           deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
+           echo "Deployment Type: $deployment_type"
+           echo "::set-output name=deployment_type::$deployment_type"
       env:
-          INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
+         INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
+
 
     - name: Show Deployment Type
       run: |
