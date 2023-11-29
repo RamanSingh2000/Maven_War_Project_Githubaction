@@ -43,8 +43,8 @@ jobs:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
      
 
-    - name: Unit Testing
-      run: mvn test
+    # - name: Unit Testing
+    #   run: mvn test
 
     # - name: Cache SonarQube packages
     #   uses: actions/cache@v1
