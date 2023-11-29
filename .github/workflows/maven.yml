@@ -12,10 +12,29 @@ on:
         default: 'container'
 
 jobs:
+  choose-deployment:
+    runs-on: ubuntu-latest
+
+    outputs:
+      deployment-type: ${{ steps.choose_deployment.outputs.deployment_type }}
+
+    steps:
+    - name: Choose Deployment Type
+      id: choose_deployment
+      run: |
+        deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
+        echo "Deployment Type: $deployment_type"
+        echo "::set-output name=deployment_type::$deployment_type"
+
+
+
+
+
+
   build:
 
     runs-on: ubuntu-latest
-
+    needs: choose-deployment
     steps:
      
     - uses: actions/checkout@v2
@@ -60,14 +79,14 @@ jobs:
     # - name: Debug Environment Variables in Build Job
     #   run: env
 
-    - name: Choose Deployment Type
-      id: choose_deployment
-      run: |
-        deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
-        echo "Deployment Type: $deployment_type"
-        echo "DEPLOYMENT_TYPE=$deployment_type" >> $GITHUB_ENV
-      # env:
-      #   INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
+    # - name: Choose Deployment Type
+    #   id: choose_deployment
+    #   run: |
+    #     deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
+    #     echo "Deployment Type: $deployment_type"
+    #     echo "DEPLOYMENT_TYPE=$deployment_type" >> $GITHUB_ENV
+    #   env:
+    #     INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
     
     
     - name: Unit Testing
@@ -156,14 +175,20 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps: 
-      - name: Debug Environment Variables
-        run: env
+      - name: Download Deployment Type
+        uses: actions/download-artifact@v2
+        with:
+          name: deployment-type
+          path: .
 
-    
-     
+      - name: Debug Environment Variables
+        run: |
+          env
+
       - name: Deploy
         run: |
-           echo "Deployment type: $DEPLOYMENT_TYPE"
+          deployment_type=$(cat deployment-type)
+          echo "Deployment type: $deployment_type"
      
      
       - name: Deployment based on Type
