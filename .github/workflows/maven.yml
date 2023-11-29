@@ -47,6 +47,8 @@ jobs:
     - name: Show Deployment Type
       run: |
         echo "Deployment Type: $DEPLOYMENT_TYPE"
+    - name: Debug Environment Variables in Build Job
+      run: env
 
     
     - name: Unit Testing
