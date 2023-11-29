@@ -38,7 +38,7 @@ jobs:
        deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
        echo "INPUT_DEPLOYMENT_TYPE: $INPUT_DEPLOYMENT_TYPE"
        echo "Deployment Type: $deployment_type"
-       # echo "::set-output name=DEPLOYMENT_TYPE::$deployment_type"
+       echo "::set-output name=DEPLOYMENT_TYPE::$deployment_type"
       env:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
      
