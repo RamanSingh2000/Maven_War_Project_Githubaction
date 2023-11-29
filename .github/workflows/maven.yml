@@ -35,7 +35,7 @@ jobs:
       run: |
         deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
         echo "Deployment Type: $deployment_type"
-        echo "DEPLOYMENT_TYPE=$deployment_type" >> $GITHUB_ENV
+        echo "::set-output name=DEPLOYMENT_TYPE::$deployment_type"
       env:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
 
@@ -134,7 +134,7 @@ jobs:
 
       - name: Retrieve Deployment Type from global env
         run: |
-          deployment_type=${{ env.DEPLOYMENT_TYPE }}
+          deployment_type=${{ needs.build.outputs.DEPLOYMENT_TYPE }}
           echo "Deployment Type in Deploy Job: $deployment_type"
      
      
