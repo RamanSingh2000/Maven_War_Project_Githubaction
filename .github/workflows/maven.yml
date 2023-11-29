@@ -76,11 +76,11 @@ jobs:
     - name: Nexus Repo Publish
       uses: sonatype-nexus-community/nexus-repo-github-action@master
       with:
-        serverUrl: http://13.127.241.237:8082
+        serverUrl: http://65.2.122.38:8081
         username: admin
         password: admin
         format: maven2
-        repository: maven-devops
+        repository: devops-maven
         coordinates: groupId=QA artifactId=devops-integration version=${{ github.run_number }}
         assets: extension=war
         filename: ./target/devops-integration.war
@@ -159,7 +159,7 @@ jobs:
           # source ~/.bashrc
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://13.127.241.237:8082/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
+          wget --user=admin --password=admin -O app.war "http://65.2.122.38:8081/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:8
