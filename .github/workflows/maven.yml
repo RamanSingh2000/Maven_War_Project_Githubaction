@@ -19,6 +19,7 @@ jobs:
   build:
 
     runs-on: self-hosted
+    
     steps:
      
     - uses: actions/checkout@v2
@@ -39,12 +40,10 @@ jobs:
        echo "::set-output name=DEPLOYMENT_TYPE::$deployment_type"
       env:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
-    outputs:
-     deployment_type: ${{ steps.choose_deployment.outputs.DEPLOYMENT_TYPE }}
-   
+     
 
-    # - name: Unit Testing
-    #   run: mvn test
+    - name: Unit Testing
+      run: mvn test
 
     # - name: Cache SonarQube packages
     #   uses: actions/cache@v1
