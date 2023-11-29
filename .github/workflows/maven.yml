@@ -39,7 +39,8 @@ jobs:
        echo "::set-output name=DEPLOYMENT_TYPE::$deployment_type"
       env:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
-
+    outputs:
+     deployment_type: ${{ steps.choose_deployment.outputs.DEPLOYMENT_TYPE }}
    
 
     # - name: Unit Testing
@@ -135,8 +136,8 @@ jobs:
 
       - name: Retrieve Deployment Type from global env
         run: |
-          deployment_type=${{ needs.build.outputs.DEPLOYMENT_TYPE }}
-          echo "Deployment Type in Deploy Job: $deployment_type"
+         deployment_type=${{ needs.build.outputs.deployment_type }}
+         echo "Deployment Type in Deploy Job: $deployment_type"
      
      
       # - name: Deployment based on Type
