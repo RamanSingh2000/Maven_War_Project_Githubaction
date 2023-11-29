@@ -42,6 +42,10 @@ jobs:
       env:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
      
+    - name: Set up Maven
+      run: |
+       sudo yum install -y maven
+      if: runner.os == 'Linux'
 
     - name: Unit Testing
       run: mvn test
