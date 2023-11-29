@@ -26,7 +26,10 @@ jobs:
         echo "Deployment Type: $deployment_type"
         echo "::set-output name=deployment_type::$deployment_type"
 
-
+    - name: Debug Artifact Content
+      run: |
+        ls ${{ runner.workspace }}/deployment-type
+        cat ${{ runner.workspace }}/deployment-type/*
 
 
 
