@@ -43,23 +43,32 @@ jobs:
     #   env:
     #    INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
 
+    # - name: Choose Deployment Type
+    #   id: choose_deployment
+    #   run: |
+    #     deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
+    #     echo "Deployment Type: $deployment_type"
+    #     echo "::set-output name=deployment_type::$deployment_type"
+    #   env:
+    #     INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
+
+
+
+    # - name: Show Deployment Type
+    #   run: |
+    #     echo "Deployment Type: $DEPLOYMENT_TYPE"
+    # - name: Debug Environment Variables in Build Job
+    #   run: env
+
     - name: Choose Deployment Type
       id: choose_deployment
       run: |
         deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
         echo "Deployment Type: $deployment_type"
-        echo "::set-output name=deployment_type::$deployment_type"
+        echo "DEPLOYMENT_TYPE=$deployment_type" >> $GITHUB_ENV
       env:
         INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
-
-
-
-    - name: Show Deployment Type
-      run: |
-        echo "Deployment Type: $DEPLOYMENT_TYPE"
-    - name: Debug Environment Variables in Build Job
-      run: env
-
+    
     
     - name: Unit Testing
       run: mvn test
@@ -156,11 +165,15 @@ jobs:
       #     echo "Deployment Type in Deploy Job: $deployment_type"
       #     echo "Deployment Type from inputs: ${{ github.event.inputs.deployment_type }}"
 
-      - name: Retrieve Deployment Type from previous job
+      # - name: Retrieve Deployment Type from previous job
+      #   id: retrieve_deployment_type
+      #   run: echo "::set-output name=deployment_type::${{ needs.build.outputs.deployment_type }}"
+
+      - name: Retrieve Deployment Type from Environment File
         id: retrieve_deployment_type
-        run: echo "::set-output name=deployment_type::${{ needs.build.outputs.deployment_type }}"
-
-
+        run: |
+          deployment_type=$(grep -oP 'DEPLOYMENT_TYPE=\K.*' $GITHUB_ENV)
+          echo "::set-output name=deployment_type::$deployment_type"
       - name: Deployment based on Type
         run: |
          if [[ "$deployment_type" == "container" ]]; then
