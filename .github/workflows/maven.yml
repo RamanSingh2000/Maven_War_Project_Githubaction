@@ -65,6 +65,7 @@ jobs:
       run: |
         deployment_type=$(echo -e 'container\nnon-container' | grep -m 1 -i "$(echo "$INPUT_DEPLOYMENT_TYPE" | tr -d '[:space:]')")
         echo "Deployment Type: $deployment_type"
+        echo "::set-output name=deployment_type::$deployment_type"
         echo "DEPLOYMENT_TYPE=$deployment_type" >> $GITHUB_ENV
       env:
         INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
@@ -169,11 +170,15 @@ jobs:
       #   id: retrieve_deployment_type
       #   run: echo "::set-output name=deployment_type::${{ needs.build.outputs.deployment_type }}"
 
+      # - name: Retrieve Deployment Type from Environment File
+      #   id: retrieve_deployment_type
+      #   run: |
+      #     deployment_type=$(grep -oP 'DEPLOYMENT_TYPE=\K.*' $GITHUB_ENV)
+      #     echo "::set-output name=deployment_type::$deployment_type"
       - name: Retrieve Deployment Type from Environment File
         id: retrieve_deployment_type
-        run: |
-          deployment_type=$(grep -oP 'DEPLOYMENT_TYPE=\K.*' $GITHUB_ENV)
-          echo "::set-output name=deployment_type::$deployment_type"
+        run: echo "::set-output name=deployment_type::${{ needs.build.outputs.deployment_type }}"
+
       - name: Deployment based on Type
         run: |
          if [[ "$deployment_type" == "container" ]]; then
