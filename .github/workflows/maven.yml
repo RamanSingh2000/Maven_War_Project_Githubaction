@@ -43,8 +43,8 @@ jobs:
        INPUT_DEPLOYMENT_TYPE: ${{ github.event.inputs.deployment_type }}
      
 
-    # - name: Unit Testing
-    #   run: mvn test
+    - name: Unit Testing
+      run: mvn test
 
     # - name: Cache SonarQube packages
     #   uses: actions/cache@v1
@@ -65,8 +65,8 @@ jobs:
     #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     #   run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       
-    # - name: Build with Maven
-    #   run: mvn clean install
+    - name: Build with Maven
+      run: mvn clean install
     # - name: Nexus Repo Publish
     #   uses: sonatype-nexus-community/nexus-repo-github-action@master
     #   with:
