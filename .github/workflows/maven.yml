@@ -148,16 +148,14 @@ jobs:
       - name: Deployment based on Type
         run: |
          if [[ "$deployment_type" == "container" ]]; then
-          # Container deployment steps
+          
           sudo docker pull ramansingh2000/devops-integration:latest
           sudo docker rm -f springboot-example-container
           sudo docker run -d -p 8087:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
          else
          
           sudo apt-get install wget -y
-          # echo "NEXUS_USERNAME=your_username" >> ~/.bashrc
-          # echo "NEXUS_PASSWORD=your_password" >> ~/.bashrc
-          # source ~/.bashrc
+       
 
           # Example: Download a WAR file from Nexus
           wget --user=admin --password=admin -O app.war "http://15.206.194.250:8081/repository/maven-devops/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
