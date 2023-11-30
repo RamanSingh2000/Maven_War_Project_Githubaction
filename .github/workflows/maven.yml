@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Clean Workspace
       run: |
-          # Delete existing workspace contents
+          
            sudo rm -rf ${{ github.workspace }}/*
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -75,7 +75,7 @@ jobs:
     - name: Nexus Repo Publish
       uses: sonatype-nexus-community/nexus-repo-github-action@master
       with:
-        serverUrl: http://3.110.92.159:8081
+        serverUrl: http://13.235.49.150:8081
         username: admin
         password: admin
         format: maven2
@@ -109,24 +109,24 @@ jobs:
          path: ${{github.workspace}}/reports
 
     
-    # - name: Build & push Docker image
-    #   uses: mr-smithers-excellent/docker-build-push@v5
-    #   with:
-    #     image: ramansingh2000/devops-integration
-    #     tags: latest
-    #     registry: docker.io
-    #     dockerfile: Dockerfile
-    #     username: ${{ secrets.DOCKER_USERNAME }}
-    #     password: ${{ secrets.DOCKER_PASSWORD }}
-    # - name: Trivy Scan
-    #   uses:  aquasecurity/trivy-action@master
-    #   with:
-    #     image-ref: ramansingh2000/devops-integration:latest
-    #     format: 'table'
-    #     exit-code: '0'
-    #     ignore-unfixed: true
-    #     vuln-type: 'os,library'
-    #     severity: 'CRITICAL,HIGH'
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: ramansingh2000/devops-integration
+        tags: latest
+        registry: docker.io
+        dockerfile: Dockerfile
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Trivy Scan
+      uses:  aquasecurity/trivy-action@master
+      with:
+        image-ref: ramansingh2000/devops-integration:latest
+        format: 'table'
+        exit-code: '0'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
  
 
  
