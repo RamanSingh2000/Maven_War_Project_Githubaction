@@ -156,7 +156,7 @@ jobs:
        
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://3.110.92.159:8081/repository/devops-maven/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
+          wget --user=admin --password=admin -O app.war "http://13.235.49.150:8081/repository/devops-maven/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:8
