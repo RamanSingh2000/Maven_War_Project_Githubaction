@@ -44,7 +44,8 @@ jobs:
      
     - name: Set up Maven
       run: |
-       sudo apt-get install -y maven
+       sudo sudo apt install maven
+
       if: runner.os == 'ubuntu'
 
     - name: Unit Testing
