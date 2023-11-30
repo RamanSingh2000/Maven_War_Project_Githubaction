@@ -145,13 +145,13 @@ jobs:
       - name: Deployment based on Type
         run: |
          if [[ "$deployment_type" == "container" ]]; then
-          
+           echo "Deploying as a container"
           sudo docker pull ramansingh2000/devops-integration:latest
           sudo docker rm -f springboot-example-container
           sudo docker run -d -p 8087:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
         
          else
-         
+          echo "Deploying as a non-container"
           sudo apt-get install wget -y
        
 
