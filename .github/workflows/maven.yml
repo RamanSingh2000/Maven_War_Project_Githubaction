@@ -44,7 +44,7 @@ jobs:
      
     - name: Set up Maven
       run: |
-       sudo apt install maven
+       sudo apt-get install maven
 
       if: runner.os == 'ubuntu'
 
