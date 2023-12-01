@@ -9,6 +9,9 @@ on:
       deployment_type:
         description: 'Choose deployment type'
         required: true
+        options:
+        - container
+        - non-container
         default: 'container'
 
 jobs:
