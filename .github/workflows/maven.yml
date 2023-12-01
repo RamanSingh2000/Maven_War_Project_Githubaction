@@ -138,7 +138,7 @@ jobs:
      
       - name: Retrieve Deployment Type from global env
         run: |
-         deployment_type=${{ needs.build.outputs.deployment_type }}
+         deployment_type=${{ needs.build.outputs.DEPLOYMENT_TYPE }}
          echo "Deployment Type in Deploy Job: $deployment_type"
      
      
@@ -146,9 +146,9 @@ jobs:
         run: |
          if [ "$deployment_type" == "container" ]; then
            echo "Deploying as a container"
-          sudo docker pull ramansingh2000/devops-integration:latest
-          sudo docker rm -f springboot-example-container
-          sudo docker run -d -p 8087:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
+           sudo docker pull ramansingh2000/devops-integration:latest
+           sudo docker rm -f springboot-example-container
+           sudo docker run -d -p 8087:8080 --name springboot-example-container ramansingh2000/devops-integration:latest
         
          elif [ "$deployment_type" == "non-container" ]; then
           echo "Deploying as a non-container"
