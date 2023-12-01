@@ -75,7 +75,7 @@ jobs:
     - name: Nexus Repo Publish
       uses: sonatype-nexus-community/nexus-repo-github-action@master
       with:
-        serverUrl: http://13.235.49.150:8081
+        serverUrl: http://13.232.31.61:8081
         username: admin
         password: admin
         format: maven2
@@ -144,7 +144,7 @@ jobs:
      
       - name: Deployment based on Type
         run: |
-         if [[ "$deployment_type" == "container" ]]; then
+         if [ "$deployment_type" == "container" ]; then
            echo "Deploying as a container"
           sudo docker pull ramansingh2000/devops-integration:latest
           sudo docker rm -f springboot-example-container
@@ -156,7 +156,7 @@ jobs:
        
 
           # Example: Download a WAR file from Nexus
-          wget --user=admin --password=admin -O app.war "http://13.235.49.150:8081/repository/devops-maven/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
+          wget --user=admin --password=admin -O app.war "http://13.232.31.61:8081/repository/devops-maven/QA/devops-integration/${{ github.run_number }}/devops-integration-${{ github.run_number }}.war"
 
           # Download Tomcat Docker image
           sudo docker pull tomcat:8
